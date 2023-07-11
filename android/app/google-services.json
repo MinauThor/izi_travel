@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "31659474096",
+    "project_id": "izitravel-f4a0d",
+    "storage_bucket": "izitravel-f4a0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:31659474096:android:bd3946ed19da22cadf8f75",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "31659474096-35g8c7rtjmqiu6fle9qr9n8mplul6pg7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE9o0LvKMmwKrvtwIh08dve54NKb7fiGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "31659474096-35g8c7rtjmqiu6fle9qr9n8mplul6pg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
