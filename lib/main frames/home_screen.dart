@@ -205,7 +205,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           elevation: MaterialStateProperty.all(0.1),
                           minimumSize: MaterialStateProperty.all(const Size(200,50))
                         ),
-                        child: const Text('Recherchez les départs'),
+                        child: const Text(
+                          'Rechercher les départs',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                          ),
+                        )
                       )
                     ],
                   ),
