@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    bool toogleValue = false;
 
     String? selectedDestination = "";
     //List destinationItemList = [];
@@ -83,8 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             stream: FirebaseFirestore.instance
                                 .collection('Destinations')
                                 .snapshots(),
-                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                              List<DropdownMenuItem<String>> destinationItems = [];
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              List<DropdownMenuItem<String>> destinationItems =
+                                  [];
                               if (!snapshot.hasData) {
                                 return const CircularProgressIndicator();
                               } else {
@@ -107,8 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 items: destinationItems,
                                 onChanged: ((destinationValue) {
                                   setState(() {
-                                    selectedDestination =
-                                        destinationValue;
+                                    selectedDestination = destinationValue;
                                   });
                                 }),
                                 value: selectedDestination,
@@ -132,8 +135,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             stream: FirebaseFirestore.instance
                                 .collection('Destinations')
                                 .snapshots(),
-                            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                              List<DropdownMenuItem<String>> destinationItems = [];
+                            builder: (context,
+                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                              List<DropdownMenuItem<String>> destinationItems =
+                                  [];
                               if (!snapshot.hasData) {
                                 return const CircularProgressIndicator();
                               } else {
@@ -156,8 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 items: destinationItems,
                                 onChanged: ((destinationValue) {
                                   setState(() {
-                                    selectedDestination =
-                                        destinationValue;
+                                    selectedDestination = destinationValue;
                                   });
                                 }),
                                 value: selectedDestination,
@@ -169,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       const Divider(),
+
                       Row(
                         children: [
                           const Icon(
@@ -189,30 +194,69 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
 
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 12.0,
+                      ),
+
+                      //Switch button aller-retour
+                      AnimatedToggleSwitch<bool>.dual(
+                        current: toogleValue,
+                        first: false,
+                        second: true,
+                        dif: 50.0,
+                        borderColor: Colors.transparent,
+                        borderWidth: 5.0,
+                        height: 25,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 1.5),
+                          )
+                        ],
+                        onChanged: (b) {
+                          setState(() => toogleValue = b);
+                          return Future.delayed(
+                              const Duration(milliseconds: 500));
+                        },
+                        colorBuilder: (b) => b ? Colors.grey[3] : Colors.orange,
+                        iconBuilder: (value) => value
+                            ? Icon(
+                                Icons.remove_circle_outline,
+                                key: UniqueKey(),
+                              )
+                            : Icon(
+                                Icons.check_circle_outline,
+                                key: UniqueKey(),
+                              ),
+                        textBuilder: (value) => value
+                            ? const Center(child: Text('Aller simple'))
+                            : const Center(child: Text('Aller-retour')),
+                      ),
+
+                      const SizedBox(
+                        height: 10,
+                      ),
 
                       //Bouton de recherche des voyages
                       ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)
-                            )
-                          ),
-
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-                          elevation: MaterialStateProperty.all(0.1),
-                          minimumSize: MaterialStateProperty.all(const Size(200,50))
-                        ),
-                        child: const Text(
-                          'Rechercher les départs',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
-                          ),
-                        )
-                      )
+                          onPressed: () {},
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(12.0))),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.orange),
+                              elevation: MaterialStateProperty.all(0.1),
+                              minimumSize: MaterialStateProperty.all(
+                                  const Size(200, 50))),
+                          child: const Text(
+                            'Rechercher les départs',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ))
                     ],
                   ),
                 )
