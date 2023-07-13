@@ -199,41 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       //Switch button aller-retour
-                      AnimatedToggleSwitch<bool>.dual(
-                        current: toogleValue,
-                        first: false,
-                        second: true,
-                        dif: 50.0,
-                        borderColor: Colors.transparent,
-                        borderWidth: 5.0,
-                        height: 25,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 1.5),
-                          )
-                        ],
-                        onChanged: (b) {
-                          setState(() => toogleValue = b);
-                          return Future.delayed(
-                              const Duration(milliseconds: 500));
-                        },
-                        colorBuilder: (b) => b ? Colors.grey[3] : Colors.orange,
-                        iconBuilder: (value) => value
-                            ? Icon(
-                                Icons.remove_circle_outline,
-                                key: UniqueKey(),
-                              )
-                            : Icon(
-                                Icons.check_circle_outline,
-                                key: UniqueKey(),
-                              ),
-                        textBuilder: (value) => value
-                            ? const Center(child: Text('Aller simple'))
-                            : const Center(child: Text('Aller-retour')),
-                      ),
+                      switchButton(toogleValue),
 
                       const SizedBox(
                         height: 10,
@@ -281,6 +247,43 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Compte'),
         ],
       ),
+    );
+  }
+
+  AnimatedToggleSwitch<bool> switchButton(bool toogleValue) {
+    return AnimatedToggleSwitch<bool>.dual(
+      current: toogleValue,
+      first: false,
+      second: true,
+      dif: 50.0,
+      borderColor: Colors.transparent,
+      borderWidth: 5.0,
+      height: 25,
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black26,
+          spreadRadius: 1,
+          blurRadius: 2,
+          offset: Offset(0, 1.5),
+        )
+      ],
+      onChanged: (b) {
+        setState(() => toogleValue = b);
+        return Future.delayed(const Duration(milliseconds: 500));
+      },
+      colorBuilder: (b) => b ? Colors.grey[3] : Colors.orange,
+      iconBuilder: (value) => value
+          ? Icon(
+              Icons.remove_circle_outline,
+              key: UniqueKey(),
+            )
+          : Icon(
+              Icons.check_circle_outline,
+              key: UniqueKey(),
+            ),
+      textBuilder: (value) => value
+          ? const Center(child: Text('Aller simple'))
+          : const Center(child: Text('Aller-retour')),
     );
   }
 }
