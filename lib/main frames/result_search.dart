@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:izi_travel/main%20frames/home_screen.dart';
 
 class ResultSearch extends StatefulWidget {
   const ResultSearch({Key? key}) : super(key: key);
@@ -9,9 +10,12 @@ class ResultSearch extends StatefulWidget {
 }
 
 class _ResultSearchState extends State<ResultSearch> {
-  final departureCollection =
-      FirebaseFirestore.instance.collection('HeureDepart').snapshots();
+  CollectionReference departureCollection =
+      FirebaseFirestore.instance.collection('HeureDepart');
   late List<Map<String, dynamic>> items;
+  List departure = [];
+  HomeScreen selectedDeparture = const HomeScreen();
+  HomeScreen selectedDestination = const HomeScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class _ResultSearchState extends State<ResultSearch> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(
-            stream: departureCollection,
+            stream: departureCollection.snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return AlertDialog(
@@ -41,13 +45,37 @@ class _ResultSearchState extends State<ResultSearch> {
               }
 
               return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.all(8.0),
+                  final DocumentSnapshot documentSnapshot =
+                      snapshot.data!.docs[index];
+                  return Card(
+                    elevation: 2.5,
+                    color: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                    margin: const EdgeInsets.all(10),
                     child: ListTile(
-                      shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 2, color: Colors.transparent)),
+                      isThreeLine: true,
+                      dense: true,
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.5),
+                        child: SizedBox.fromSize(
+                          size: const Size.fromRadius(40),
+                          child: Image.asset(
+                              "C:/Users/HP/AndroidStudioProjects/izi_travel/lib/images/image_bus_2.png"),
+                        ),
+                      ),
+                      titleAlignment: ListTileTitleAlignment.center,
+                      title: Text(
+                        "${selectedDeparture as String} ———————— ${selectedDestination as String}",
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        "${documentSnapshot['Départ']}      ${documentSnapshot['Prix'].toString()}     ${documentSnapshot['Place'].toString()}"
+                      ),
                     ),
                   );
                 },

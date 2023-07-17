@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool toogleValue = false;
 
     String? selectedDestination = "";
+    String? selectedDeparture = "";
     //List destinationItemList = [];
     final dateGoTextController = TextEditingController();
     final dateToTextController = TextEditingController();
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                   child: Column(
                     children: [
+                      ///Champ de text pour la ville de départ
                       Row(
                         children: <Widget>[
                           const Icon(
@@ -85,12 +87,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             stream: FirebaseFirestore.instance
                                 .collection('Destinations')
                                 .snapshots(),
-                            builder: (context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              List<DropdownMenuItem<String>> destinationItems =
-                                  [];
+                            builder: (context, snapshot) {
+                              List<DropdownMenuItem<String>> destinationItems = [];
                               if (!snapshot.hasData) {
-                                return const CircularProgressIndicator();
+                                return AlertDialog(
+                                  content: Text(snapshot.error.toString()),
+                                );
                               } else {
                                 final destinations =
                                     snapshot.data?.docs.reversed.toList();
@@ -100,6 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text("Ville de départ"),
                                   ),
                                 );
+
+                                /*for (var doc in snapshot.data!.docs) {
+                                  destinationItems.add(
+                                    DropdownMenuItem(
+                                      value: doc.id,
+                                      child: Text(doc.id),
+                                    )
+                                  );
+                                }*/
+
                                 for (var destination in destinations!) {
                                   destinationItems.add(DropdownMenuItem(
                                     value: destination.id,
@@ -121,6 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         ],
                       ),
+
+                      ///Champ de texte pour la ville de destination
                       Row(
                         children: <Widget>[
                           const Icon(
@@ -140,7 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               List<DropdownMenuItem<String>> destinationItems =
                                   [];
                               if (!snapshot.hasData) {
-                                return const CircularProgressIndicator();
+                                return AlertDialog(
+                                  content: Text(snapshot.error.toString())
+                                );
                               } else {
                                 final destinations =
                                     snapshot.data?.docs.reversed.toList();
@@ -164,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     selectedDestination = destinationValue;
                                   });
                                 }),
-                                value: selectedDestination,
+                                value: selectedDeparture,
                                 isExpanded: true,
                               );
                             },
@@ -241,10 +257,34 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.map_outlined), label: 'Planifier'),
+              icon: Icon(Icons.home_outlined),
+              label: 'Accueil',
+              activeIcon: Icon(
+                Icons.home_rounded,
+                color: Colors.orange,
+              )),
           BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code), label: 'Réservations'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Compte'),
+            icon: Icon(Icons.map_outlined),
+            activeIcon: Icon(
+              Icons.map_rounded,
+              color: Colors.orange,
+            ),
+            label: 'Planifier',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.qr_code_2_outlined),
+              activeIcon: Icon(
+                Icons.qr_code_2_rounded,
+                color: Colors.orange,
+              ),
+              label: 'Réservations'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_2_outlined),
+              activeIcon: Icon(
+                Icons.person_2_rounded,
+                color: Colors.orange,
+              ),
+              label: 'Compte'),
         ],
       ),
     );
