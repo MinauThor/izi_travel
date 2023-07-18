@@ -22,14 +22,12 @@ class _SignUpPageState extends State<SignUpPage> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  Future signUp() async {
-    if (passwordConfirmed()) {
+  Future<void> signUp() async {
       //create user
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-    }
   }
 
   sendUserDataToDB() async {
@@ -130,7 +128,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      hintText: 'Votre Nom',
+                      //hintText: 'Votre Nom',
+                      label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.person_rounded),
                       fillColor: Colors.white,
                       filled: true
@@ -155,8 +154,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      hintText: 'Votre Adresse mail',
+                     // hintText: 'Votre Adresse mail',
+                      label: const Text("Email", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.alternate_email),
+                      prefixIconColor: Colors.orange,
                       fillColor: Colors.white,
                       filled: true
                     )
@@ -180,7 +181,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      hintText: 'Votre Mot de Passe',
+                      //hintText: 'Votre Mot de Passe',
+                      label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.lock),
                       fillColor: Colors.white,
                       filled: true

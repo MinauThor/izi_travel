@@ -38,31 +38,32 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
+        child: Center(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const SizedBox(height: 50,),
                 const Icon(
                   Icons.directions_bus,
-                  size: 100,
+                  size: 70,
                 ),
-        
+                  
                 const SizedBox(height: 25,),
-        
+                  
                 Text(
                   'Izi Travel',
                   style: GoogleFonts.bebasNeue(
                     fontSize: 52
                   ),
                 ),
-        
+                  
                 const SizedBox(height: 50,),
-        
+                  
                 //email textfield
-        
+                  
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -72,21 +73,22 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
-                        borderSide: const BorderSide(color: Colors.transparent)
+                        borderSide: const BorderSide(color: Colors.black)
                       ),
-                      hintText: 'Votre email',
+                      //hintText: 'Votre email',
+                      label: const Text("Email", style: TextStyle(color: Colors.black),),
                       fillColor: Colors.white,
                       filled: true
                     ),
                   ),
                 ),
-        
+                  
                 const SizedBox(height: 20,),
-        
+                  
                 //password textfield
-        
+                  
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextField(
                     controller: passwordController,
                     decoration: InputDecoration(
@@ -98,22 +100,23 @@ class _SignInPageState extends State<SignInPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      hintText: 'Votre mot de passe',
+                      //hintText: 'Votre mot de passe',
+                      label: const Text("Mot de passe", style: TextStyle(color: Colors.black),),
                       fillColor: Colors.white,
                       filled: true
                     ),
                   ),
                 ),
-        
+                  
                 const SizedBox(height: 40,),
-        
+                  
                 //sign in button
-        
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                  
+                /*Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: TextButton(
                     style: ButtonStyle(
-                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
+                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 80, vertical: 20)),
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
@@ -132,12 +135,36 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ),
+                ),*/
+          
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: GestureDetector(
+                    onTap: singIn,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.circular(15)
+                      ),
+                      child:const  Center(
+                        child: Text(
+                          'Connexion',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-        
+                  
                 const SizedBox(height: 20,),
-        
+                  
                 //Vous n'avez pas de compte ? Inscrivez-vous
-        
+                  
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -159,15 +186,15 @@ class _SignInPageState extends State<SignInPage> {
                     )
                   ],
                 ),
-        
+                  
                 const SizedBox(height: 10,),
-        
+                  
                 //mot de passe oublié ?
-        
+                  
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -189,7 +216,7 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                 ),
-        
+                  
               ],
             ),
           ),

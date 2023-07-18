@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:izi_travel/main%20frames/header_section.dart';
+import 'package:izi_travel/main%20frames/result_search.dart';
 import 'package:izi_travel/main%20frames/search_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -59,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: EdgeInsets.only(top: size.height * 0.25),
                 color: Colors.white,
               ),
-              Column(children: [
+              Column(
+                children: [
                 const HeaderSection(),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.orange,
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 10.0,
                           ),
                           //CustomTextField(label: 'De', controller: dateGoTextController,)
                           StreamBuilder<QuerySnapshot>(
@@ -142,10 +144,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.orange,
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            height: 10.0,
                           ),
                           //CustomTextField(label: 'De', controller: dateGoTextController,)
-                          StreamBuilder<QuerySnapshot>(
+                          StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('Destinations')
                                 .snapshots(),
@@ -189,6 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       const Divider(),
+                      const SizedBox(height: 15.0,),
 
                       Row(
                         children: [
@@ -197,12 +200,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.orange,
                           ),
                           const SizedBox(
-                            height: 20.0,
+                            width: 5.0,
                           ),
+
+                          //Champ de texte date aller
                           CustomTextField(
                             label: 'De',
                             controller: dateGoTextController,
                           ),
+                          const SizedBox(width: 10.0),
+
+                          //Champ de texte date retour
                           CustomTextField(
                             label: 'A',
                             controller: dateToTextController,
@@ -211,19 +219,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
 
                       const SizedBox(
-                        height: 12.0,
+                        height: 35.0,
                       ),
 
                       //Switch button aller-retour
                       switchButton(toogleValue),
 
                       const SizedBox(
-                        height: 10,
+                        height: 35,
                       ),
 
                       //Bouton de recherche des voyages
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => const ResultSearch())
+                            );
+                          },
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all(
                                   RoundedRectangleBorder(
@@ -249,6 +261,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       //Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Colors.orange,
         currentIndex: _currentIndex,
         onTap: (int newIndex) {
           setState(() {
@@ -257,14 +271,14 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(Icons.home_outlined, color: Colors.black),
               label: 'Accueil',
               activeIcon: Icon(
                 Icons.home_rounded,
                 color: Colors.orange,
               )),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
+            icon: Icon(Icons.map_outlined, color: Colors.black),
             activeIcon: Icon(
               Icons.map_rounded,
               color: Colors.orange,
@@ -272,19 +286,19 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Planifier',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_2_outlined),
+              icon: Icon(Icons.qr_code_2_outlined, color: Colors.black),
               activeIcon: Icon(
                 Icons.qr_code_2_rounded,
                 color: Colors.orange,
               ),
               label: 'Réservations'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_2_outlined),
+              icon: Icon(Icons.person_2_outlined, color: Colors.black),
               activeIcon: Icon(
                 Icons.person_2_rounded,
                 color: Colors.orange,
               ),
-              label: 'Compte'),
+              label: 'Mon compte'),
         ],
       ),
     );
@@ -293,12 +307,12 @@ class _HomeScreenState extends State<HomeScreen> {
   AnimatedToggleSwitch<bool> switchButton(bool toogleValue) {
     return AnimatedToggleSwitch<bool>.dual(
       current: toogleValue,
-      first: false,
-      second: true,
-      dif: 50.0,
+      first: true,
+      second: false,
+      dif: 55.0,
       borderColor: Colors.transparent,
       borderWidth: 5.0,
-      height: 25,
+      height: 55,
       boxShadow: const [
         BoxShadow(
           color: Colors.black26,
@@ -309,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
       onChanged: (b) {
         setState(() => toogleValue = b);
-        return Future.delayed(const Duration(milliseconds: 500));
+        return Future.delayed(const Duration(milliseconds: 300));
       },
       colorBuilder: (b) => b ? Colors.grey[3] : Colors.orange,
       iconBuilder: (value) => value

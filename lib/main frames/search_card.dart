@@ -5,21 +5,24 @@ class CustomTextField extends StatelessWidget {
 
   final TextEditingController controller;
   final String label;
-  const CustomTextField({
-    super.key,
-    required this.controller,
-    required this.label
-  });
+  const CustomTextField(
+      {super.key, required this.controller, required this.label});
 
   @override
   Widget build(BuildContext context) {
     return Flexible(
       child: TextField(
         controller: controller,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black),
+                borderRadius: BorderRadius.circular(12.0)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: Colors.black),
+                borderRadius: BorderRadius.circular(12.0)),
             label: Text(
-              'De',
-              style: TextStyle(color: Colors.orange),
+              label.toString(),
+              style: const TextStyle(color: Colors.orange),
             ),
             border: InputBorder.none),
         style: const TextStyle(fontWeight: FontWeight.bold),

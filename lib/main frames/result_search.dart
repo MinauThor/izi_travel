@@ -22,6 +22,7 @@ class _ResultSearchState extends State<ResultSearch> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: const Text('Départs',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:izi_travel/identification/signin_page.dart';
+import 'package:izi_travel/identification/login_page.dart';
 import 'package:izi_travel/identification/signup_page.dart';
 
 class AuthPage extends StatefulWidget {
@@ -21,7 +21,7 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
-      return SignInPage(showSignUpPage: toogleScreen);
+      return LoginPage(showSignUpPage: toogleScreen);
     } else {
       return SignUpPage(showLoginPage: toogleScreen);
     }
