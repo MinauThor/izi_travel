@@ -25,9 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     bool toogleValue = false;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    Stream<QuerySnapshot> getData() {
+      return firestore.collection('Destination').snapshots();
+    }
 
-    String? selectedDestination = "";
-    String? selectedDeparture = "";
+    String? selectedDestination;
+    String? selectedDeparture;
     //List destinationItemList = [];
     final dateGoTextController = TextEditingController();
     final dateToTextController = TextEditingController();
@@ -74,8 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                   child: Column(
                     children: [
+                      const SizedBox(height: 20.0,),
                       ///Champ de text pour la ville de départ
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           const Icon(
                             Icons.map_outlined,
@@ -86,58 +92,60 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           //CustomTextField(label: 'De', controller: dateGoTextController,)
                           StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection('Destinations')
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              List<DropdownMenuItem<String>> destinationItems = [];
+                            stream: getData(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              List<DropdownMenuItem<String>> departureItems = [];
                               if (!snapshot.hasData) {
                                 return AlertDialog(
                                   content: Text(snapshot.error.toString()),
                                 );
-                              } else {
-                                final destinations =
-                                    snapshot.data?.docs.reversed.toList();
-                                destinationItems.add(
-                                  const DropdownMenuItem(
-                                    value: "0",
-                                    child: Text("Ville de départ"),
-                                  ),
-                                );
-
-                                /*for (var doc in snapshot.data!.docs) {
-                                  destinationItems.add(
-                                    DropdownMenuItem(
-                                      value: doc.id,
-                                      child: Text(doc.id),
-                                    )
-                                  );
-                                }*/
-
-                                for (var destination in destinations!) {
-                                  destinationItems.add(DropdownMenuItem(
-                                    value: destination.id,
-                                    child: Text(destination.id),
-                                  ));
-                                }
                               }
-                              return DropdownButton<String>(
-                                items: destinationItems,
-                                onChanged: ((destinationValue) {
-                                  setState(() {
-                                    selectedDestination = destinationValue;
-                                  });
-                                }),
-                                value: selectedDestination,
-                                isExpanded: true,
+
+                              if(snapshot.connectionState == ConnectionState.waiting) {
+                                return const LinearProgressIndicator();
+                              }
+                                
+                              for (var document in snapshot.data!.docs) {
+                                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                                String departureVal = data['Ville'];
+                                departureItems.add(
+                                  DropdownMenuItem(
+                                    value: departureVal,
+                                    alignment: AlignmentDirectional.center,
+                                    child: Text(departureVal),
+                                  )
+                                );
+                              }
+                              
+                              return Column(
+                                children: [
+                                  DropdownButton<String>(
+                                    items: departureItems,
+                                    onChanged: (departureValue) {
+                                      setState(() {
+                                        selectedDeparture = departureValue;
+                                      });
+                                    },
+                                    value: selectedDeparture,
+                                    isExpanded: false,
+                                    isDense: true,
+                                    hint: const Text('Ville de départ'),
+                                    icon: const Icon(Icons.arrow_drop_down_sharp, size: 25.0,),
+                                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                ],
                               );
                             },
                           )
                         ],
                       ),
 
+                      const SizedBox(height: 40.0,),
+
                       ///Champ de texte pour la ville de destination
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           const Icon(
                             Icons.location_on_outlined,
@@ -147,50 +155,56 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 10.0,
                           ),
                           //CustomTextField(label: 'De', controller: dateGoTextController,)
-                          StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('Destinations')
-                                .snapshots(),
-                            builder: (context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              List<DropdownMenuItem<String>> destinationItems =
-                                  [];
+                          StreamBuilder<QuerySnapshot>(
+                            stream: getData(),
+                            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                              List<DropdownMenuItem<String>> destinationItems = [];
                               if (!snapshot.hasData) {
                                 return AlertDialog(
-                                  content: Text(snapshot.error.toString())
+                                  content: Text(snapshot.error.toString()),
                                 );
-                              } else {
-                                final destinations =
-                                    snapshot.data?.docs.reversed.toList();
-                                destinationItems.add(
-                                  const DropdownMenuItem(
-                                    value: "0",
-                                    child: Text("Ville d'arrivée"),
-                                  ),
-                                );
-                                for (var destination in destinations!) {
-                                  destinationItems.add(DropdownMenuItem(
-                                    value: destination.id,
-                                    child: Text(destination.id),
-                                  ));
-                                }
                               }
+
+                              if(snapshot.connectionState == ConnectionState.waiting) {
+                                return const LinearProgressIndicator();
+                              }
+                                
+                              for (var document in snapshot.data!.docs) {
+                                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                                String destinationVal = data['Ville'];
+                                destinationItems.add(
+                                  DropdownMenuItem(
+                                    value: destinationVal,
+                                    alignment: AlignmentDirectional.center,
+                                    child: Text(destinationVal),
+                                  )
+                                );
+                              }
+                              
                               return DropdownButton<String>(
+                                alignment: AlignmentDirectional.centerStart,
                                 items: destinationItems,
-                                onChanged: ((destinationValue) {
+                                onChanged: (destinationValue) {
                                   setState(() {
                                     selectedDestination = destinationValue;
                                   });
-                                }),
-                                value: selectedDeparture,
-                                isExpanded: true,
+                                },
+                                value: selectedDestination,
+                                isExpanded: false,
+                                autofocus: true,
+                                isDense: true,
+                                hint: const Text('Ville d\'arrivée'),
+                                icon: const Icon(Icons.arrow_drop_down_sharp, size: 25.0,),
+                                padding: const EdgeInsets.symmetric(horizontal: 60.0),
+                                borderRadius: BorderRadius.circular(12.0),
                               );
                             },
                           )
                         ],
                       ),
 
-                      const Divider(),
+                      const SizedBox(height: 20.0,),
+                      const Divider(color: Colors.black12, thickness: 2,),
                       const SizedBox(height: 15.0,),
 
                       Row(
@@ -341,3 +355,67 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+/*final destinations =
+    snapshot.data?.docs.reversed.toList();
+destinationItems.add(
+  const DropdownMenuItem(
+    value: "0",
+    child: Text("Ville de départ"),
+  ),
+);*/
+
+/*for (var doc in snapshot.data!.docs) {
+  destinationItems.add(
+    DropdownMenuItem(
+      value: doc.id,
+      child: Text(doc.id),
+    )
+  );
+}*/
+
+/*for (var destination in destinations!) {
+  destinationItems.add(DropdownMenuItem(
+    value: destination.id,
+    child: Text(destination.id),
+  ));
+}*/
+
+/*StreamBuilder(
+  stream: getData(),
+  builder: (BuildContext context,
+      AsyncSnapshot<QuerySnapshot> snapshot) {
+    List<DropdownMenuItem<String>> destinationItems =
+        [];
+    if (!snapshot.hasData) {
+      return AlertDialog(
+        content: Text(snapshot.error.toString())
+      );
+    } else {
+      final destinations =
+          snapshot.data?.docs.reversed.toList();
+      destinationItems.add(
+        const DropdownMenuItem(
+          value: "0",
+          child: Text("Ville d'arrivée"),
+        ),
+      );
+      for (var destination in destinations!) {
+        destinationItems.add(DropdownMenuItem(
+          value: destination.id,
+          child: Text(destination.id),
+        ));
+      }
+    }
+    return DropdownButton<String>(
+      items: destinationItems,
+      onChanged: ((destinationValue) {
+        setState(() {
+          selectedDeparture = destinationValue;
+        });
+      }),
+      value: selectedDeparture,
+      isExpanded: false,
+    );
+  },
+)*/
