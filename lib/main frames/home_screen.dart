@@ -56,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       //Body of the app
       body: SafeArea(
-          bottom: false,
+          bottom: true,
+          top: true,
           child: Stack(
             children: [
               Container(
@@ -79,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20.0,),
+                      
                       ///Champ de text pour la ville de départ
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -136,6 +138,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               );
+
+                              /*return DropdownButton<String>(
+                                isDense: true,
+                                isExpanded: false,
+                                hint: const Text('Ville de départ'),
+                                value: selectedDeparture,
+                                items: snapshot.data!.docs.map((map) {
+                                  return DropdownMenuItem<String>(
+                                    value: map["id"],
+                                    child: Text(map["Ville"]),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    
+                                  });
+                                },
+                              );*/
                             },
                           )
                         ],

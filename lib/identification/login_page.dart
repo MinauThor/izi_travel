@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:izi_travel/identification/my_button.dart';
 import 'package:izi_travel/identification/my_text_field.dart';
 import 'package:izi_travel/main%20frames/home_screen.dart';
-import 'package:izi_travel/services/auth_service.dart';
+import 'package:izi_travel/service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showSignUpPage;
