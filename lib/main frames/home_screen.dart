@@ -30,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return firestore.collection('Destination').snapshots();
     }
 
-    String? selectedDestination;
-    String? selectedDeparture;
+    String selectedDestination="Ville d'arrivée";
+    String selectedDeparture="Ville de départ";
     //List destinationItemList = [];
     final dateGoTextController = TextEditingController();
     final dateToTextController = TextEditingController();
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     value: selectedDeparture,
                                     isExpanded: false,
                                     isDense: true,
-                                    hint: const Text('Ville de départ'),
+                                    hint: Text(selectedDeparture),
                                     icon: const Icon(Icons.arrow_drop_down_sharp, size: 25.0,),
                                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                                     borderRadius: BorderRadius.circular(12.0),
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 isExpanded: false,
                                 autofocus: true,
                                 isDense: true,
-                                hint: const Text('Ville d\'arrivée'),
+                                hint: Text(selectedDestination),
                                 icon: const Icon(Icons.arrow_drop_down_sharp, size: 25.0,),
                                 padding: const EdgeInsets.symmetric(horizontal: 60.0),
                                 borderRadius: BorderRadius.circular(12.0),
