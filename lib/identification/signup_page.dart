@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:izi_travel/main%20frames/home_screen.dart';
+import 'package:izi_travel/main%20frames/second/home_frame.dart';
 
 class SignUpPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -28,6 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      addUserDetails(_usernameController.text, _emailController.text);
   }
 
   sendUserDataToDB() async {
@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
         .collection('users')
         .add({'username': username, 'email': email}).then((value) =>
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const HomeScreen()
+                context, MaterialPageRoute(builder: (_) => const HomeFrame()
         )
       )
     );
@@ -128,7 +128,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      //hintText: 'Votre Nom',
                       label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.person_rounded),
                       fillColor: Colors.white,
@@ -154,7 +153,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                     // hintText: 'Votre Adresse mail',
                       label: const Text("Email", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.alternate_email),
                       prefixIconColor: Colors.orange,
@@ -181,7 +179,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      //hintText: 'Votre Mot de Passe',
                       label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
                       prefixIcon: const Icon(Icons.lock),
                       fillColor: Colors.white,
