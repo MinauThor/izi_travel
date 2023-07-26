@@ -1,6 +1,7 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:izi_travel/main%20frames/result_search.dart';
@@ -30,6 +31,23 @@ class _HomeFrameState extends State<HomeFrame> {
     return firestore.collection('Destination').snapshots();
   }
 
+  void returnDialogError() {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return CupertinoAlertDialog(
+          title: const Text('Renseignez toutes informations nécessaires'),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text('D\'accord'),
+              onPressed: () => Navigator.pop(context)
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,264 +62,274 @@ class _HomeFrameState extends State<HomeFrame> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              alignment: Alignment.bottomCenter,
-              color: Colors.orange,
-              height: 200,
-              width: double.infinity,
-              child: Text(
-                'Bonjour, ${user?.displayName}. Où allons-nous ?',
-                style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.bottomCenter,
+                color: Colors.orange,
+                height: 200,
+                width: double.infinity,
+                child: Text(
+                  'Bonjour, ${user?.displayName}. Où allons-nous ?',
+                  style: const TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-
-            //Ville de départ
-            const SizedBox(
-              width: 20.0,
-            ),
-            StreamBuilder<QuerySnapshot>(
-              stream: getData(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Text('Error : ${snapshot.error.toString()}');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-
-                List<DropdownMenuItem<String>> departureItems = [];
-
-                for (var document in snapshot.data!.docs) {
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
-                  String departureVal = data['Ville'];
-                  departureItems.add(DropdownMenuItem(
-                    value: departureVal,
-                    child: Text(data['Ville']),
-                  ));
-                }
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+              const SizedBox(
+                height: 20.0,
+              ),
+        
+              //Ville de départ
+              const SizedBox(
+                width: 20.0,
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: getData(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text('Error : ${snapshot.error.toString()}');
+                  }
+        
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+        
+                  List<DropdownMenuItem<String>> departureItems = [];
+        
+                  for (var document in snapshot.data!.docs) {
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    String departureVal = data['Ville'];
+                    departureItems.add(DropdownMenuItem(
+                      value: departureVal,
+                      child: Text(data['Ville']),
+                    ));
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          items: departureItems,
+                          value: selectedDeparture,
+                          icon: const Icon(
+                            Icons.location_on_rounded,
+                            color: Colors.orange,
+                          ),
+                          isDense: true,
+                          hint: const Text(
+                            'Ville de départ',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          isExpanded: true,
+                          borderRadius: BorderRadius.circular(12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedDeparture = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        items: departureItems,
-                        value: selectedDeparture,
-                        icon: const Icon(
-                          Icons.location_on_rounded,
-                          color: Colors.orange,
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+        
+              //Ville d'arrivée
+              StreamBuilder<QuerySnapshot>(
+                stream: getData(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Text('Error : ${snapshot.error.toString()}');
+                  }
+        
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+        
+                  List<DropdownMenuItem<String>> destinationItems = [];
+        
+                  for (var document in snapshot.data!.docs) {
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    String destinationVal = data['Ville'];
+                    destinationItems.add(DropdownMenuItem(
+                      value: destinationVal,
+                      child: Text(data['Ville']),
+                    ));
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0)),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          items: destinationItems,
+                          value: selectedDestination,
+                          icon: const Icon(
+                            Icons.map_rounded,
+                            color: Colors.orange,
+                          ),
+                          isDense: true,
+                          hint: const Text(
+                            'Ville d\'arrivée',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          isExpanded: true,
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          onChanged: (value) {
+                            setState(() {
+                              selectedDestination = value;
+                            });
+                          },
                         ),
-                        isDense: true,
-                        hint: const Text(
-                          'Ville de départ',
-                          style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  );
+                },
+              ),
+        
+              const SizedBox(height: 10.0,),
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Divider(color: Colors.black12, thickness: 2,),
+              ),
+              const SizedBox(height: 10.0,),
+        
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.calendar_month_rounded,
+                      color: Colors.orange,
+                    ),
+                    const SizedBox(width: 5.0,),
+              
+                    //champ de date aller
+                    Flexible(
+                      child: TextField(
+                        controller: dateToGoController,
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                          label: const Text('Date Aller'),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12.0)
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.orange),
+                            borderRadius: BorderRadius.circular(12.0)
+                          )
                         ),
-                        isExpanded: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDeparture = value;
-                          });
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2040)
+                          );
+              
+                          if (pickedDate != null) {
+                            setState(() {
+                              dateToGoController.text = DateFormat('dd-MMM-yyyy').format(pickedDate);
+                            });
+                          }
                         },
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-
-            //Ville d'arrivée
-            StreamBuilder<QuerySnapshot>(
-              stream: getData(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Text('Error : ${snapshot.error.toString()}');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-
-                List<DropdownMenuItem<String>> destinationItems = [];
-
-                for (var document in snapshot.data!.docs) {
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
-                  String destinationVal = data['Ville'];
-                  destinationItems.add(DropdownMenuItem(
-                    value: destinationVal,
-                    child: Text(data['Ville']),
-                  ));
-                }
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0)),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        items: destinationItems,
-                        value: selectedDestination,
-                        icon: const Icon(
-                          Icons.map_rounded,
-                          color: Colors.orange,
+                    const SizedBox(width: 10.0,),
+              
+                    //champ de date retour
+                    Flexible(
+                      child: TextField(
+                        controller: dateToBackController,
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                          label: const Text('Date Retour'),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(12.0)
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.orange),
+                            borderRadius: BorderRadius.circular(12.0)
+                          )
                         ),
-                        isDense: true,
-                        hint: const Text(
-                          'Ville d\'arrivée',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        isExpanded: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedDestination = value;
-                          });
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2040)
+                          );
+              
+                          if (pickedDate != null) {
+                            setState(() {
+                              dateToBackController.text = DateFormat('dd-MMM-yyyy').format(pickedDate);
+                            });
+                          }
                         },
                       ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20.0,),
+        
+              //bouton coulissant aller-retour
+              switchButton(toogleValue),
+              const SizedBox(height: 20.0,),
+        
+              //bouton pour le lancement des recherches de voyages
+              ElevatedButton(
+                onPressed: () {
+                  if (dateToGoController.text.isEmpty && dateToBackController.text.isEmpty) {
+                    returnDialogError();
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ResultSearch())
+                    );
+                  }
+                },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)
                     ),
                   ),
-                );
-              },
-            ),
-
-            const SizedBox(height: 10.0,),
-            const Divider(color: Colors.black12, thickness: 2,),
-            const SizedBox(height: 10.0,),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Row(
-                children: <Widget>[
-                  const Icon(
-                    Icons.calendar_month_rounded,
-                    color: Colors.orange,
-                  ),
-                  const SizedBox(width: 5.0,),
-            
-                  //champ de date aller
-                  Flexible(
-                    child: TextField(
-                      controller: dateToGoController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        label: const Text('Date Aller'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12.0)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.orange),
-                          borderRadius: BorderRadius.circular(12.0)
-                        )
-                      ),
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2040)
-                        );
-            
-                        if (pickedDate != null) {
-                          setState(() {
-                            dateToGoController.text = DateFormat('dd-MMM-yyyy').format(pickedDate);
-                          });
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 10.0,),
-            
-                  //champ de date retour
-                  Flexible(
-                    child: TextField(
-                      controller: dateToBackController,
-                      keyboardType: TextInputType.datetime,
-                      decoration: InputDecoration(
-                        label: const Text('Date Retour'),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.black),
-                          borderRadius: BorderRadius.circular(12.0)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.orange),
-                          borderRadius: BorderRadius.circular(12.0)
-                        )
-                      ),
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2040)
-                        );
-            
-                        if (pickedDate != null) {
-                          setState(() {
-                            dateToBackController.text = DateFormat('dd-MMM-yyyy').format(pickedDate);
-                          });
-                        }
-                      },
-                    ),
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                  elevation: MaterialStateProperty.all(0.1),
+                  minimumSize: MaterialStateProperty.all(
+                    const Size(200, 50)
                   )
-                ],
-              ),
-            ),
-            const SizedBox(height: 20.0,),
-
-            //bouton coulissant aller-retour
-            switchButton(toogleValue),
-            const SizedBox(height: 20.0,),
-
-            //bouton pour le lancement des recherches de voyages
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ResultSearch())
-                );
-              },
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)
+                ),
+                child: const Text(
+                  'Lancer la recherche',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-                elevation: MaterialStateProperty.all(0.1),
-                minimumSize: MaterialStateProperty.all(
-                  const Size(200, 50)
-                )
-              ),
-              child: const Text(
-                'Lancer la recherche',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
 
