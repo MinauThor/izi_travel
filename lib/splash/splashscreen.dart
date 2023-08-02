@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:izi_travel/identification/welcome_page.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(
       const Duration(
-        seconds: 1
+        milliseconds: 1800
       ), () => Navigator.push(
         context, CupertinoPageRoute(builder: (_) => const Welcome())
       )
@@ -27,12 +28,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.orange,
+    return Scaffold(
+      backgroundColor: Colors.blueAccent,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                'IziTravel',
+                style: GoogleFonts.lobster(
+                  fontSize: 100,
+                  color: Colors.white,
+                  wordSpacing: 0.0
+                )
+              ),
+            )
+          ],
         ),
       ),
     );

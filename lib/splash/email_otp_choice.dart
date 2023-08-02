@@ -34,7 +34,7 @@ class _EmailOtpChoiceState extends State<EmailOtpChoice> {
                 padding: const EdgeInsets.symmetric(horizontal: 60.0),
                 child: TextButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
                     padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
@@ -63,7 +63,7 @@ class _EmailOtpChoiceState extends State<EmailOtpChoice> {
                 padding: const EdgeInsets.symmetric(horizontal: 50.0),
                 child: TextButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                    backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
                     padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0))

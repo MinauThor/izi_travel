@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:izi_travel/main%20frames/second/home_frame.dart';
+import 'package:izi_travel/main%20frames/home_frame.dart';
 
 class SignUpPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -76,7 +76,7 @@ class _SignUpPageState extends State<SignUpPage> {
         .collection('users')
         .add({'username': username, 'email': email}).then((value) =>
             Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const HomeFrame()
+                context, MaterialPageRoute(builder: (_) =>  const HomeFrame()
         )
       )
     );
@@ -153,9 +153,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      label: const Text("Email", style: TextStyle(color: Colors.orange),),
+                      label: const Text("Email", style: TextStyle(color: Colors.black),),
                       prefixIcon: const Icon(Icons.alternate_email),
-                      prefixIconColor: Colors.orange,
+                      prefixIconColor: Colors.blueAccent,
                       fillColor: Colors.white,
                       filled: true
                     )
@@ -179,8 +179,9 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
+                      label: const Text("Mot de passe", style: TextStyle(color: Colors.black),),
                       prefixIcon: const Icon(Icons.lock),
+                      prefixIconColor: Colors.blueAccent,
                       fillColor: Colors.white,
                       filled: true
                     )
@@ -198,7 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: MaterialStateProperty.all(
                         const EdgeInsets.symmetric(horizontal: 100.0, vertical: 20.0)
                       ),
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.blueAccent),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)
@@ -231,7 +232,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: const Text(
                         'Connectez-vous',
                         style: TextStyle(
-                          color: Colors.orange, fontWeight: FontWeight.bold
+                          color: Colors.blueAccent, fontWeight: FontWeight.bold
                         ),
                       ),
                     )

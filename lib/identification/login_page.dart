@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:izi_travel/identification/my_button.dart';
 import 'package:izi_travel/identification/my_text_field.dart';
-import 'package:izi_travel/main%20frames/second/home_frame.dart';
+import 'package:izi_travel/main%20frames/home_frame.dart';
 import 'package:izi_travel/service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -65,9 +65,12 @@ class _LoginPageState extends State<LoginPage> {
 
               //email textfield
               MyTextField(
-                  text: "Email",
-                  controller: emailController,
-                  obscureText: false),
+                text: "Email",
+                controller: emailController,
+                obscureText: false,
+                icon: const Icon(Icons.alternate_email),
+                prefixIconColor: Colors.blueAccent,
+              ),
 
               const SizedBox(
                 height: 15,
@@ -75,9 +78,12 @@ class _LoginPageState extends State<LoginPage> {
 
               //password textfield
               MyTextField(
-                  text: "Mot de passe",
-                  controller: passwordController,
-                  obscureText: true),
+                text: "Mot de passe",
+                controller: passwordController,
+                obscureText: true,
+                icon: const Icon(Icons.lock),
+                prefixIconColor: Colors.blueAccent,
+              ),
 
               const SizedBox(
                 height: 15.0,
@@ -159,7 +165,8 @@ class _LoginPageState extends State<LoginPage> {
                           const BorderSide(color: Colors.black))),
                   onPressed: () {
                     AuthService().signInWithGoogle();
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => const HomeFrame()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) =>  const HomeFrame()));
                   },
                   child: Row(
                     children: [
@@ -203,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text(
                       'Créez votre compte',
                       style: TextStyle(
-                          color: Colors.orange, fontWeight: FontWeight.bold),
+                          color: Colors.blueAccent,
+                          fontWeight: FontWeight.bold),
                     ),
                   )
                 ],
