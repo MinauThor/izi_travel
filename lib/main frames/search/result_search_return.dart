@@ -14,8 +14,8 @@ class _ResultSearchState extends State<ResultSearch> {
       FirebaseFirestore.instance.collection('HeureDepart');
     
   late List<Map<String, dynamic>> items;
-   final selectedDeparture =   const HomeFrame();
-  HomeFrame selectedDestination =  const HomeFrame();
+   final selectedDeparture =  const HomeFrame();
+  HomeFrame selectedDestination = const HomeFrame();
 
   @override
   Widget build(BuildContext context) {

@@ -20,7 +20,7 @@ class _ResultSearchState extends State<ResultSearch> {
       FirebaseFirestore.instance.collection('HeureDepart');
     
   late List<Map<String, dynamic>> items;
-  final HomeFrame departures = const HomeFrame();
+  final String? departures = const HomeFrame().toString();
   final HomeFrame destinations = const HomeFrame();
    
   @override
@@ -85,7 +85,7 @@ class _ResultSearchState extends State<ResultSearch> {
                       ),
                       titleAlignment: ListTileTitleAlignment.center,
                       title: Text(
-                        "/*$departures.selectedDeparture   \n\n   ————————   \n\n   $destinations.selectedDestination \n\n",
+                        "${widget.selectedDeparture}   \n\n   ————————   \n\n   ${widget.selectedDestination} \n\n",
                         style:
                             const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
                       ), // it returns the data in relation to the city of departure and the city of arrival

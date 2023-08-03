@@ -117,8 +117,7 @@ class _HomeFrameState extends State<HomeFrame> {
                     return const CircularProgressIndicator();
                   }
 
-                  List<DropdownMenuItem<String>> departureItems =
-                      []; // cette liste contiendra les données relatives aux villes départ contenues dans la database
+                  List<DropdownMenuItem<String>> departureItems = []; // cette liste contiendra les données relatives aux villes départ contenues dans la database
 
                   for (var document in snapshot.data!.docs) {
                     Map<String, dynamic> data =
