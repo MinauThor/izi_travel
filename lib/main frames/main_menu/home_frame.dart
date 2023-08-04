@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:izi_travel/main%20frames/search/result_search.dart';
+import 'package:izi_travel/main%20frames/booking/result_search.dart';
 
 class HomeFrame extends StatefulWidget {
   const HomeFrame({super.key});
@@ -13,7 +14,7 @@ class HomeFrame extends StatefulWidget {
 
   @override
   State<HomeFrame> createState() => _HomeFrameState();
-  
+
   getDeparture() {}
 }
 
@@ -27,6 +28,7 @@ class _HomeFrameState extends State<HomeFrame> {
       TextEditingController(); // il est utilisé pour renseigner le champ de date de départ
   final dateToBackController =
       TextEditingController(); // il est utilisé pour renseigner le champ de date de retour
+
   int _currentIndex = 0;
   List<Widget> body = const [
     Icon(Icons.location_on_rounded),
@@ -37,10 +39,6 @@ class _HomeFrameState extends State<HomeFrame> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   Stream<QuerySnapshot> getData() {
     return firestore.collection('Destination').snapshots();
-  }
-
-  String getDeparture() {
-    return selectedDeparture!;
   }
 
   void returnDialogError() {
@@ -72,9 +70,12 @@ class _HomeFrameState extends State<HomeFrame> {
         elevation: 0,
         backgroundColor: Colors.blueAccent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           'Izi Travel',
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          style: GoogleFonts.lobster(
+            fontSize: 20,
+            color: Colors.white
+          ),
         ),
       ),
       body: SafeArea(
@@ -117,7 +118,8 @@ class _HomeFrameState extends State<HomeFrame> {
                     return const CircularProgressIndicator();
                   }
 
-                  List<DropdownMenuItem<String>> departureItems = []; // cette liste contiendra les données relatives aux villes départ contenues dans la database
+                  List<DropdownMenuItem<String>> departureItems =
+                      []; // cette liste contiendra les données relatives aux villes départ contenues dans la database
 
                   for (var document in snapshot.data!.docs) {
                     Map<String, dynamic> data =
@@ -343,8 +345,10 @@ class _HomeFrameState extends State<HomeFrame> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ResultSearch(
-                                  selectedDeparture: selectedDeparture!.toString(),
-                                  selectedDestination: selectedDestination!.toString(),
+                                  selectedDeparture:
+                                      selectedDeparture!.toString(),
+                                  selectedDestination:
+                                      selectedDestination!.toString(),
                                 )));
                   }
                 },

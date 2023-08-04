@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:izi_travel/main%20frames/home_frame.dart';
+import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
 
 class SignUpPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -128,7 +128,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide(color: Colors.black)
                       ),
-                      label: const Text("Mot de passe", style: TextStyle(color: Colors.orange),),
+                      label: const Text("Mot de passe", style: TextStyle(color: Colors.blueAccent),),
                       prefixIcon: const Icon(Icons.person_rounded),
                       fillColor: Colors.white,
                       filled: true

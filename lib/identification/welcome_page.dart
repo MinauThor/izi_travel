@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:izi_travel/main%20frames/home_frame.dart';
+import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
 import 'package:izi_travel/splash/email_otp_choice.dart';
 
 class Welcome extends StatelessWidget {

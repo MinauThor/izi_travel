@@ -1,35 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:izi_travel/main%20frames/home_frame.dart';
+import 'package:izi_travel/main%20frames/check-in/check_in.dart';
+import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
 
-class ResultSearch extends StatefulWidget {
+class ResultSearchReturn extends StatefulWidget {
   final String selectedDeparture;
   final String selectedDestination;
-  const ResultSearch({
+  const ResultSearchReturn({
     Key? key,
     required this.selectedDeparture,
     required this.selectedDestination
     }) : super(key: key);
 
   @override
-  State<ResultSearch> createState() => _ResultSearchState();
+  State<ResultSearchReturn> createState() => _ResultSearchReturnState();
 }
 
-class _ResultSearchState extends State<ResultSearch> {
+class _ResultSearchReturnState extends State<ResultSearchReturn> {
   CollectionReference departureCollection =
       FirebaseFirestore.instance.collection('HeureDepart');
     
   late List<Map<String, dynamic>> items;
-  final String? departures = const HomeFrame().toString();
-  final HomeFrame destinations = const HomeFrame();
-   
+   final selectedDeparture =  const HomeFrame();
+  HomeFrame selectedDestination = const HomeFrame();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
-        title: const Text('Voyage Aller',
+        title: const Text('Voyage Retour',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         centerTitle: true,
         elevation: 0.2,
@@ -40,13 +41,13 @@ class _ResultSearchState extends State<ResultSearch> {
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return AlertDialog(
-                content: Text("Error: ${snapshot.error.toString()}"),
+                content: Text(snapshot.error.toString()),
               );
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator(
-                color: Colors.blueAccent,
+                color: Colors.blue,
               );
             }
 
@@ -66,10 +67,13 @@ class _ResultSearchState extends State<ResultSearch> {
                     height: 150,
                     alignment: Alignment.center,
                     child: ListTile(
-                      isThreeLine: true,
+                      isThreeLine: false,
                       dense: true,
                       onTap: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (builder) => const CheckIn())
+                        );
                       },
                       leading: SizedBox(
                         height: 200,
@@ -78,20 +82,22 @@ class _ResultSearchState extends State<ResultSearch> {
                             size: const Size.fromRadius(50),
                             child: Image.asset(
                                 "lib/images/logo_company.png",
+                                height: 100,
+                                width: 100,
                                 fit: BoxFit.fill,
-                              ), //it displays an image, which whe consider here as the logo of the transport company
+                              ),
                           ),
                         ),
                       ),
                       titleAlignment: ListTileTitleAlignment.center,
                       title: Text(
-                        "${widget.selectedDeparture}   \n\n   ————————   \n\n   ${widget.selectedDestination} \n\n",
+                        "${widget.selectedDestination}            -->             ${widget.selectedDeparture}\n\n\n",
                         style:
                             const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.bold),
-                      ), // it returns the data in relation to the city of departure and the city of arrival
+                      ),
                       subtitle: Text(
                         "${documentSnapshot['Départ']}      ${documentSnapshot['Prix']} XAF     ${documentSnapshot['Place']} places"
-                      ), //it returns data relating to the price of the trip, the number of seats available on the bus and the departure time
+                      ),
                     ),
                   ),
                 );

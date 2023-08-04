@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:izi_travel/identification/my_button.dart';
 import 'package:izi_travel/identification/my_text_field.dart';
-import 'package:izi_travel/main%20frames/home_frame.dart';
+import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
 import 'package:izi_travel/service/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
