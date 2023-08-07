@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
+import 'package:izi_travel/service/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -217,6 +218,81 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
         
                 const SizedBox(height: 25,),
+
+                const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 0.6,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Text(
+                        'Ou continuez avec',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        thickness: 0.6,
+                        color: Colors.black,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              //Bouton Google Sign In
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 60, vertical: 20)),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                      ),
+                      side: MaterialStateProperty.all<BorderSide>(
+                          const BorderSide(color: Colors.black))),
+                  onPressed: () {
+                    AuthService().signInWithGoogle();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) =>  const HomeFrame()));
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'lib/images/google_icon.png',
+                        height: 25,
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      const Text(
+                        'Continuer avec Google',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
         
                 //vous avez déjà un compte ? connectez-vous
         

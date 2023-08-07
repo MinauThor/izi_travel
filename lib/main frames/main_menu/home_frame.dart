@@ -56,12 +56,6 @@ class _HomeFrameState extends State<HomeFrame> {
         });
   }
 
-  void updateDeparture(String newValue) {
-    setState(() {
-      selectedDeparture = newValue;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
