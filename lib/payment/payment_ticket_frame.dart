@@ -6,7 +6,7 @@ class PaymentTickectFrame extends StatefulWidget {
   final String? textPhone;
   final String? textLuggage;
   final String? textAddress;
-  final String? getBirthdayValue;
+  final String getBirthdayValue;
   const PaymentTickectFrame({
     super.key,
     required this.textPhone,
@@ -164,7 +164,9 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
                                 child: TextField(
                                   controller: TextEditingController(text: widget.textAddress),
                                   enabled: false,
-
+                                  decoration: const InputDecoration(
+                                    label: Text('Adresse')
+                                  ),
                                 )
                               )
                             )

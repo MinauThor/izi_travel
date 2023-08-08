@@ -27,8 +27,8 @@ class _CheckInState extends State<CheckIn> {
   String birthdayValue = "";
 
   String getBirthdayValue() {
-    birthdayValue = textAddress;
-    return birthdayValue;
+    textBirthday = birthDateController.text;
+    return textBirthday;
   }
 
   void emptyContentError() {
@@ -124,7 +124,7 @@ class _CheckInState extends State<CheckIn> {
                                           color: Colors.blueAccent),
                                       borderRadius:
                                           BorderRadius.circular(12.0)),
-                                  label: const Text('Votre nom'),
+                                  label: const Text('Nom'),
                                 ),
                               ),
                             ),
@@ -152,7 +152,7 @@ class _CheckInState extends State<CheckIn> {
                                           color: Colors.blueAccent),
                                       borderRadius:
                                           BorderRadius.circular(12.0)),
-                                  label: const Text('Votre nom'),
+                                  label: const Text('Email'),
                                 ),
                               ),
                             ),
