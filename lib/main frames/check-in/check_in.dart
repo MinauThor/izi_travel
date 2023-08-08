@@ -20,7 +20,16 @@ class _CheckInState extends State<CheckIn> {
   final phoneController = TextEditingController();
   final luggageController = TextEditingController();
   final addressController = TextEditingController();
-  var phoneNumber = FirebaseAuth.instance.currentUser;
+  late String textPhone;
+  late String textLuggage;
+  late String textAddress;
+  late String textBirthday;
+  String birthdayValue = "";
+
+  String getBirthdayValue() {
+    birthdayValue = textAddress;
+    return birthdayValue;
+  }
 
   void emptyContentError() {
     showDialog(
@@ -83,12 +92,13 @@ class _CheckInState extends State<CheckIn> {
                       const Text(
                         'VOS INFORMATIONS PERSONNELLES',
                         style: TextStyle(
-                          color: Colors.blueAccent,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
-                        ),
+                            color: Colors.blueAccent,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 20.0,),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
 
                       Row(
                         children: [
@@ -191,6 +201,11 @@ class _CheckInState extends State<CheckIn> {
                                     });
                                   }
                                 },
+                                onChanged: (value) {
+                                  setState(() {
+                                    textBirthday = value;
+                                  });
+                                },
                               ),
                             ),
                           ),
@@ -219,6 +234,11 @@ class _CheckInState extends State<CheckIn> {
                                             color: Colors.blueAccent)),
                                     label: const Text('Téléphone'),
                                     prefixText: '+237'),
+                                onChanged: (value) {
+                                  setState(() {
+                                    textPhone = value;
+                                  });
+                                },
                               ),
                             ),
                           )
@@ -252,6 +272,11 @@ class _CheckInState extends State<CheckIn> {
                                         borderSide: const BorderSide(
                                             color: Colors.blueAccent)),
                                     label: const Text('Bagages à enregistrer')),
+                                onChanged: (value) {
+                                  setState(() {
+                                    textLuggage = value;
+                                  });
+                                },
                               ),
                             ),
                           ),
@@ -264,21 +289,23 @@ class _CheckInState extends State<CheckIn> {
                               width: 200.0,
                               height: 70.0,
                               child: TextField(
-                                  controller: addressController,
-                                  keyboardType: TextInputType.streetAddress,
-                                  decoration: InputDecoration(
-                                    label: const Text('Adresse'),
-                                    enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        borderSide: const BorderSide(
-                                            color: Colors.black)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                        borderSide: const BorderSide(
-                                            color: Colors.blueAccent)),
-                                  )),
+                                controller: addressController,
+                                keyboardType: TextInputType.streetAddress,
+                                decoration: InputDecoration(
+                                  label: const Text('Adresse'),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      borderSide: const BorderSide(
+                                          color: Colors.black)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      borderSide: const BorderSide(
+                                          color: Colors.blueAccent)),
+                                ),
+                                onChanged: (value) {
+                                  textAddress = value;
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -299,8 +326,12 @@ class _CheckInState extends State<CheckIn> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (_) =>
-                                      PaymentTickectFrame(phoneController: phoneController.toString(),)));
+                                    builder: (_) => PaymentTickectFrame(
+                                          textPhone: textPhone,
+                                          textLuggage: textLuggage,
+                                          textAddress: textAddress,
+                                          getBirthdayValue: getBirthdayValue(),
+                                        )));
                           }
                         },
                         style: ButtonStyle(
@@ -314,12 +345,14 @@ class _CheckInState extends State<CheckIn> {
                             minimumSize:
                                 MaterialStateProperty.all(const Size(300, 70))),
                         child: const Text(
-                          'Lancer la recherche',
+                          'Procéder au paiement',
                           style: TextStyle(
                               fontSize: 20.0, fontWeight: FontWeight.bold),
                         ),
                       ),
-                      const SizedBox(height: 40.0,)
+                      const SizedBox(
+                        height: 40.0,
+                      )
                     ],
                   ),
                 ),

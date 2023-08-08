@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PaymentTickectFrame extends StatefulWidget {
-  final String? phoneController;
+  final String? textPhone;
+  final String? textLuggage;
+  final String? textAddress;
+  final String? getBirthdayValue;
   const PaymentTickectFrame({
     super.key,
-    required this.phoneController
+    required this.textPhone,
+    required this.textLuggage,
+    required this.textAddress,
+    required this.getBirthdayValue
     });
 
   @override
@@ -48,7 +54,7 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
                   padding: const EdgeInsets.symmetric(vertical: 120.0, horizontal: 8.0),
                   child: Container(
                     color: Colors.grey[200],
-                    alignment: Alignment.topCenter,
+                    alignment: Alignment.center,
                     child: Column(
                       children: [
                         //1ère ligne de données
@@ -88,6 +94,8 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
                             )
                           ],
                         ),
+                        const SizedBox(height: 13.0,),
+                        
                         //2e ligne de données
                         Row(
                           children: [
@@ -98,13 +106,67 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
                                 height: 66.0,
                                 width: 200.0,
                                 child: TextField(
-                                  controller: TextEditingController(text: "${widget.phoneController}"),
+                                  controller: TextEditingController(text: widget.textPhone),
                                   enabled: false,
                                   decoration: const InputDecoration(
                                     label: Text('Téléphone')
                                   ),
                                 ),
                               ),
+                            ),
+                            const SizedBox(width: 08.0,),
+
+                            //nombre de bagages à enregistrer
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0, top: 08.0),
+                              child: SizedBox(
+                                height: 66.0,
+                                width: 200.0,
+                                child: TextField(
+                                  controller: TextEditingController(text: widget.textLuggage),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    label: Text('Bagages à enregistrer')
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 13.0,),
+
+                        //3e ligne d'affichage de données
+                        Row(
+                          children: [
+                            //birth date controller
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0, top: 08.0),
+                              child: SizedBox(
+                                height: 66.0,
+                                width: 200.0,
+                                child: TextField(
+                                  controller: TextEditingController(text: widget.getBirthdayValue),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    label: Text('Date de naissance')
+                                  )
+                                )
+                              )
+                            ),
+                            const SizedBox(width: 08.0),
+
+                            //adresse du client
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0, top: 08.0),
+                              child: SizedBox(
+                                height: 66.0,
+                                width: 200.0,
+                                child: TextField(
+                                  controller: TextEditingController(text: widget.textAddress),
+                                  enabled: false,
+
+                                )
+                              )
                             )
                           ],
                         )

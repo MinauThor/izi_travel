@@ -1,0 +1,3 @@
+class DataClass {
+  String textPhone = "";
+}
