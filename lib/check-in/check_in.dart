@@ -7,7 +7,13 @@ import 'package:intl/intl.dart';
 import 'package:izi_travel/payment/payment_ticket_frame.dart';
 
 class CheckIn extends StatefulWidget {
-  const CheckIn({super.key});
+  final String selectedDeparture;
+  final String selectedDestination;
+  const CheckIn({
+    super.key,
+    required this.selectedDeparture,
+    required this.selectedDestination
+    });
 
   @override
   State<CheckIn> createState() => _CheckInState();
@@ -327,11 +333,13 @@ class _CheckInState extends State<CheckIn> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => PaymentTickectFrame(
-                                          textPhone: textPhone,
-                                          textLuggage: textLuggage,
-                                          textAddress: textAddress,
-                                          getBirthdayValue: getBirthdayValue(),
-                                        )));
+                                        textPhone: textPhone,
+                                        textLuggage: textLuggage,
+                                        textAddress: textAddress,
+                                        getBirthdayValue: getBirthdayValue(),
+                                        selectedDeparture:
+                                            widget.selectedDeparture,
+                                        selectedDestination: widget.selectedDestination,)));
                           }
                         },
                         style: ButtonStyle(

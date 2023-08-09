@@ -1,18 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pay_unit_sdk/pay_unit_sdk.dart';
 
 class PaymentTickectFrame extends StatefulWidget {
   final String? textPhone;
   final String? textLuggage;
   final String? textAddress;
   final String getBirthdayValue;
+  final String selectedDeparture;
+  final String selectedDestination;
   const PaymentTickectFrame({
     super.key,
     required this.textPhone,
     required this.textLuggage,
     required this.textAddress,
-    required this.getBirthdayValue
+    required this.getBirthdayValue,
+    required this.selectedDeparture,
+    required this.selectedDestination
     });
 
   @override
@@ -30,7 +35,6 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.blueAccent,
-          centerTitle: true,
           elevation: 0,
           title: Text(
             'Paiement',
@@ -171,6 +175,66 @@ class _PaymentTickectFrameState extends State<PaymentTickectFrame> {
                               )
                             )
                           ],
+                        ),
+                        const SizedBox(height: 13.0,),
+
+                        //4e ligne d'affichage des données
+                        Row(
+                          children: [
+                            //sens aller
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0, top: 08.0),
+                              child: SizedBox(
+                                height: 66.0,
+                                width: 200.0,
+                                child: TextField(
+                                  controller: TextEditingController(text: "${widget.selectedDeparture} - ${widget.selectedDestination}"),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    label: Text('Aller')
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 08.0),
+
+                            //sens retour
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0, top: 08.0),
+                              child: SizedBox(
+                                height: 66.0,
+                                width: 200.0,
+                                child: TextField(
+                                  controller: TextEditingController(text: "${widget.selectedDestination} - ${widget.selectedDeparture}"),
+                                  enabled: false,
+                                  decoration: const InputDecoration(
+                                    label: Text('Retour')
+                                  )
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 30.0,),
+
+                        //bouton de paiement
+                        PayUnitButton(
+                          actionAfterProccess: (transactionId, transactionStatus) {
+                            
+                          },
+                          apiKey: "",
+                          apiUser: "890a0e63-bff0-4752-b9e3-5c98402f0957",
+                          apiPassword: "ca957f8f-06d0-4146-8559-8360ce2fd041",
+                          buttonTextColor: Colors.white,
+                          currency: "XAF",
+                          color: Colors.blueAccent,
+                          mode: "sandbox",
+                          notiFyUrl: "",
+                          productName: "izitravel",
+                          transactionAmount: "8000",
+                          transactionCallBackUrl: "",
+                          transactionId: "",
+                          width: 200,
                         )
                       ]
                     ),
