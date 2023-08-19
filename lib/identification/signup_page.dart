@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:izi_travel/main%20frames/main_menu/home_frame.dart';
 import 'package:izi_travel/service/auth_service.dart';
+import 'package:izi_travel/service/loading_frame.dart';
 
 class SignUpPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -102,15 +103,12 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.phone_android_outlined,
-                  size: 100,
-                  ),
                 const SizedBox(height: 75,),
                 Text(
                   'Izi Travel',
-                  style: GoogleFonts.bebasNeue(
-                    fontSize: 52
+                  style: GoogleFonts.lobster(
+                    fontSize: 52,
+                    color: Colors.blueAccent
                   ),
                 ),
                 const SizedBox(height: 20,),
@@ -270,7 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   onPressed: () {
                     AuthService().signInWithGoogle();
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) =>  const HomeFrame()));
+                        MaterialPageRoute(builder: (_) =>  const LoadingFrame()));
                   },
                   child: Row(
                     children: [

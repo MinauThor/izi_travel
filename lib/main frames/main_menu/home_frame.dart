@@ -331,8 +331,8 @@ class _HomeFrameState extends State<HomeFrame> {
               //bouton pour le lancement des recherches de voyages
               ElevatedButton(
                 onPressed: () {
-                  if (dateToGoController.text.isEmpty &&
-                      dateToBackController.text.isEmpty) {
+                  if (dateToGoController.text.isEmpty
+                      ) {
                     returnDialogError();
                   } else {
                     Navigator.push(
